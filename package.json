@@ -1,0 +1,17 @@
+{
+  "name": "Neo4jFaculdade",
+  "version": "1",
+  "description": "Projeto para apresentar a faculdade",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "require-dir": "^1.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  },
+  "scripts": {
+    "app": "nodemon src/server.js"
+  }
+}
