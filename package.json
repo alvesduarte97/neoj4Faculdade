@@ -6,6 +6,7 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.1",
+    "neo4j": "^2.0.0-RC2",
     "require-dir": "^1.2.0"
   },
   "devDependencies": {
