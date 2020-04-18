@@ -1,6 +1,10 @@
 const neo4j = require('neo4j-driver')
 
-const driver = neo4j.driver('bolt://localhost:7687', neo4j.auth.basic('neo4j', 'faculdade'));
+const urlBase = 'bolt://localhost:7687';
+const userBase = 'neo4j';
+const passwordBase = 'faculdade';
+
+const driver = neo4j.driver(urlBase, neo4j.auth.basic(userBase, passwordBase));
 const session = driver.session();
 const personName = 'Alice'
 
@@ -30,75 +34,59 @@ async function runNeo(){
 
 
 
-// var neo4j = require('neo4j');
-// var db = new neo4j.GraphDatabase('http://neo4j:neo4j@localhost:7687');
 
 
-// var insertQuery = 
-//   "UNWIND {pairs} as pair \
-//    MERGE (p1:Person {name:pair[0]}) \
-//    MERGE (p2:Person {name:pair[1]}) \
-//    MERGE (p1)-[:KNOWS]-(p2)";
+// const neo4j = require("neo4j-driver");
+// const Person = require("./model/person");
 
-// var foafQuery = 
-//  "MATCH (person:Person)-[:KNOWS]-(friend)-[:KNOWS]-(foaf) \
-//   WHERE person.name = {name} \
-//    AND NOT (person)-[:KNOWS]-(foaf) \
-//   RETURN foaf.name AS name";
+// const driver = neo4j.driver(
+//   "bolt://localhost:7687",
+//   neo4j.auth.basic("neo4j", "faculdade")
+// );
+// const session = driver.session();
+// const personName = "Alice";
+// var listPerson = [];
 
+// let alice = new Person();
+// alice.nmUser = "Alice";
+// alice.nrAge = "22";
+// alice.dsNickname = "Ally";
+// listPerson.push(alice);
 
-// var commonFriendsQuery =
-// "MATCH (user:Person)-[:KNOWS]-(friend)-[:KNOWS]-(foaf:Person) \
-//  WHERE user.name = {name1} AND foaf.name = {name2} \
-//  RETURN friend.name AS friend";
+// let arya = new Person();
+// arya.nmUser = "Arya";
+// arya.nrAge = "23";
+// arya.dsNickname = "Ary";
+// listPerson.push(arya);
 
-// var connectingPathsQuery =
-// "MATCH path = shortestPath((p1:Person)-[:KNOWS*..6]-(p2:Person)) \
-//  WHERE p1.name = {name1} AND p2.name = {name2} \
-//  RETURN [n IN nodes(path) | n.name] as names";
+// let maria = new Person();
+// maria.nmUser = "Maria";
+// maria.nrAge = "51";
+// maria.dsNickname = "Dudu";
+// listPerson.push(maria);
 
-// var data = [["Jim","Mike"],["Jim","Billy"],["Anna","Jim"],
-//             ["Anna","Mike"],["Sally","Anna"],["Joe","Sally"],
-//             ["Joe","Bob"],["Bob","Sally"]];
+// console.log("Antes");
+// runNeo(listPerson)
+// console.log("Depois");
 
-// function query(query, params, column, cb) {
-//     function callback(err, results) {
-//         if (err || !results) throw err;
-//         if (!column) cb(results)
-//         else results.forEach(function(row) { cb(row[column]) });
-//     };
-//     db.cypher({ query: query, params: params}, callback);
+// async function runNeo(listPerson) {
+//   try {
+//     for (person in listPerson) {
+//       const result = await session.run(
+//         "CREATE (node:Person {name: $name,nickname: $nickname, age: $age}) RETURN node",
+//         { name: person.nmUser, nickname: person.dsNickname,age: person.nrAge }
+//       );
+
+//       const singleRecord = result.records[0];
+//       const node = singleRecord.get(0);
+
+//       console.log(node.properties.name);
+//     }
+//   } finally {
+//     await session.close();
+//   }
+
+//   // on application exit:
+//   await driver.close();
 // }
 
-// query(insertQuery, {pairs: data}, null, function () {
-//     query(foafQuery, {name: "Joe"},"name", console.log); 
-//     query(commonFriendsQuery, {name1: "Joe", name2:"Sally"},"friend",console.log);
-//     query(connectingPathsQuery, {name1: "Joe", name2:"Billy"}, "names", 
-//           function(res) { console.log(res)});
-// });
-
-
-
-
-
-{/* <script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '{your-app-id}',
-      cookie     : true,
-      xfbml      : true,
-      version    : '{api-version}'
-    });
-      
-    FB.AppEvents.logPageView();   
-      
-  };
-
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "https://connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-</script> */}
