@@ -28,7 +28,8 @@ maria.dsNickname = "Dudu";
 listPerson.push(maria);
 
 console.log("Antes");
-runNeo(listPerson)
+  runNeo(listPerson);
+  // cleanBase();
 console.log("Depois");
 
 async function runNeo(listPerson) {
@@ -52,3 +53,15 @@ async function runNeo(listPerson) {
   await driver.close();
 }
 
+
+async function cleanBase(){
+  try {
+    await session.run(
+      "MATCH (n) DELETE n"
+    );
+  } catch (error) {
+    console.error(error);
+  } finally {
+    await session.close();
+  }
+}
