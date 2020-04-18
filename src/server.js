@@ -6,8 +6,14 @@ const driver = neo4j.driver(
   neo4j.auth.basic("neo4j", "faculdade")
 );
 const session = driver.session();
-const personName = "Alice";
 var listPerson = [];
+
+
+let maria = new Person();
+maria.nmUser = "Maria";
+maria.nrAge = "51";
+maria.dsNickname = "Dudu";
+listPerson.push(maria);
 
 let alice = new Person();
 alice.nmUser = "Alice";
@@ -21,22 +27,20 @@ arya.nrAge = "23";
 arya.dsNickname = "Ary";
 listPerson.push(arya);
 
-let maria = new Person();
-maria.nmUser = "Maria";
-maria.nrAge = "51";
-maria.dsNickname = "Dudu";
-listPerson.push(maria);
 
 console.log("Antes");
-  runNeo(listPerson);
-  // cleanBase();
+// cleanBase();
+runNeo(listPerson);
 console.log("Depois");
 
 async function runNeo(listPerson) {
   try {
     for (person of listPerson) {
+      let nmNode = person.nmUser;
+      console.log(nmNode);
       const result = await session.run(
-        "CREATE (node:Person {name: $name,nickname: $nickname, age: $age}) RETURN node",
+        // `CREATE (node:Person {name: $name,nickname: $nickname, age: $age}) RETURN node`,
+        `CREATE (${nmNode}:Person {name: $name,nickname: $nickname, age: $age}) RETURN ${nmNode}`,
         { name: person.nmUser, nickname: person.dsNickname,age: person.nrAge }
       );
 
@@ -57,7 +61,7 @@ async function runNeo(listPerson) {
 async function cleanBase(){
   try {
     await session.run(
-      "MATCH (n) DELETE n"
+      "MATCH (n) DETACH DELETE n"
     );
   } catch (error) {
     console.error(error);
